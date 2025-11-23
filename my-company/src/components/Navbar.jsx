@@ -10,6 +10,7 @@ function Navbar() {
       <ul style={{
         listStyle: 'none',
         display: 'flex',
+        justifyContent: 'space-around',
         gap: '20px',
         margin: 0,
         padding: 0
