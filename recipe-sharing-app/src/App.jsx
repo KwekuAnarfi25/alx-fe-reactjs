@@ -5,6 +5,8 @@ import SearchBar from "./components/SearchBar";
 import RecipeList from "./components/RecipeList";
 import RecipeDetail from "./components/RecipeDetail"; // create this if not done yet
 import AddRecipeForm from "./components/AddRecipeForm";
+import FavoritesList from "./components/FavoritesList";
+import RecommendationsList from "./components/RecommendationsList";
 const App = () => {
   const setRecipes = useRecipeStore((state) => state.setRecipes);
 
@@ -26,6 +28,9 @@ const App = () => {
           <Route path="/" element={<RecipeList />} />
           <Route path="/recipes/:id" element={<RecipeDetail />} />
           <Route path="/add" element={<AddRecipeForm />} />
+          <Route path="/favorites" element={<FavoritesList />} />
+          <Route path="/recommendations" element={<RecommendationsList />} />
+
         </Routes>
       </div>
     </Router>
