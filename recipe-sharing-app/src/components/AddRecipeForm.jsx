@@ -1,49 +1,42 @@
-import { useState } from 'react';
-import { useRecipeStore } from './recipeStore';
+import React, { useState } from "react";
+import { useRecipeStore } from "../store/recipeStore";
 
 const AddRecipeForm = () => {
-  const addRecipe = useRecipeStore((state) => state.addRecipe);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const recipes = useRecipeStore((state) => state.recipes);
+  const setRecipes = useRecipeStore((state) => state.setRecipes);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!title.trim()) return; // simple validation
-
     const newRecipe = {
-      id: Date.now(),
-      title: title.trim(),
-      description: description.trim(),
-      createdAt: new Date().toISOString(),
+      id: recipes.length + 1,
+      title,
+      description,
     };
-
-    addRecipe(newRecipe);
-
-    setTitle('');
-    setDescription('');
+    setRecipes([...recipes, newRecipe]);
+    setTitle("");
+    setDescription("");
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ marginBottom: 20 }}>
-      <div>
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="Recipe title"
-          required
-          style={{ width: '100%', padding: 8, marginBottom: 8 }}
-        />
-      </div>
-      <div>
-        <textarea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          placeholder="Short description / ingredients / notes"
-          rows={4}
-          style={{ width: '100%', padding: 8, marginBottom: 8 }}
-        />
-      </div>
+    <form onSubmit={handleSubmit}>
+      <h2>Add New Recipe</h2>
+      <input
+        type="text"
+        placeholder="Recipe title"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        required
+      />
+      <br />
+      <textarea
+        placeholder="Recipe description"
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        required
+      />
+      <br />
       <button type="submit">Add Recipe</button>
     </form>
   );

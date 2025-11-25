@@ -4,7 +4,7 @@ import { useRecipeStore } from "./store/recipeStore";
 import SearchBar from "./components/SearchBar";
 import RecipeList from "./components/RecipeList";
 import RecipeDetail from "./components/RecipeDetail"; // create this if not done yet
-
+import AddRecipeForm from "./components/AddRecipeForm";
 const App = () => {
   const setRecipes = useRecipeStore((state) => state.setRecipes);
 
@@ -25,6 +25,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<RecipeList />} />
           <Route path="/recipes/:id" element={<RecipeDetail />} />
+          <Route path="/add" element={<AddRecipeForm />} />
         </Routes>
       </div>
     </Router>
