@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 
-export const fetchAdvancedUsers = async ({ username, location, minRepos, page = 1 }) => {
+export const fetchUserData = async ({ username, location, minRepos, page = 1 }) => {
   const headers = {};
   const apiKey = import.meta.env.VITE_APP_GITHUB_API_KEY;
 

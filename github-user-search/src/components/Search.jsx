@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { fetchAdvancedUsers } from '../services/githubService';
+import { fetchUserData } from '../services/githubService';
 
 const Search = () => {
   const [username, setUsername] = useState('');
@@ -22,7 +22,7 @@ const Search = () => {
     if (reset) setResults([]);
 
     try {
-      const users = await fetchAdvancedUsers({
+      const users = await fetchUserData({
         username,
         location,
         minRepos,
