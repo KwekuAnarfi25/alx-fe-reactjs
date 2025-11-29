@@ -1,32 +1,49 @@
 import axios from 'axios';
 
+const BASE_URL = 'https://api.github.com';
+const API_KEY = import.meta.env.VITE_GITHUB_API_KEY;
 
-export const fetchUserData = async ({ username, location, minRepos, page = 1 }) => {
-  const headers = {};
-  const apiKey = import.meta.env.VITE_APP_GITHUB_API_KEY;
+const githubAPI = axios.create({
+  baseURL: BASE_URL,
+  headers: API_KEY ? {
+    Authorization: `token ${API_KEY}`
+  } : {}
+});
 
-  if (apiKey) {
-    headers.Authorization = `token ${apiKey}`;
+export const fetchUserData = async (username) => {
+  try {
+    const response = await githubAPI.get(`/users/${username}`);
+    return response.data;
+  } catch (error) {
+    // console.error('Error fetching user data:', error); // Removed for production
+    throw error;
   }
-
-  let query = '';
-  if (username) query += `${username} `;
-  if (location) query += `location:${location} `;
-  if (minRepos) query += `repos:>=${minRepos}`;
-
-  const url = `https://api.github.com/search/users?q=${encodeURIComponent(
-    query.trim()
-  )}&page=${page}&per_page=10`;
-
-  const response = await axios.get(url, { headers });
-
-  // Fetch extra user details for each result
-  const detailedUsers = await Promise.all(
-    response.data.items.map(async (user) => {
-      const userDetails = await axios.get(user.url, { headers });
-      return userDetails.data;
-    })
-  );
-
-  return detailedUsers;
 };
+
+export const searchUsersAdvanced = async (query, page = 1) => {
+  try {
+    const response = await githubAPI.get('/search/users', {
+      params: {
+        q: query,
+        page: page,
+        per_page: 10
+      }
+    });
+    return response.data;
+  } catch (error) {
+    // console.error('Error searching users:', error); // Removed for production
+    throw error;
+  }
+};
+
+export const searchUsers = async (query) => {
+  try {
+    const response = await githubAPI.get(`/search/users?q=${query}`);
+    return response.data;
+  } catch (error) {
+    // console.error('Error searching users:', error); // Removed for production
+    throw error;
+  }
+};
+
+export default githubAPI;
